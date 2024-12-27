@@ -1,18 +1,18 @@
 const { Router } = require('express');
 const usersRoutes = Router();
 const { requireUser } = require('../middleware');
-const { users: controller } = require("../controllers")
+const { users: usersController } = require("../controllers")
 const responses = require('../responses')
 
-usersRoutes.post("/register", controller.register);
+const accountRoutes = require("./account");
+usersRoutes.use("/account", requireUser, accountRoutes)
 
-usersRoutes.post("/login", controller.login);
+usersRoutes.post("/register", usersController.register);
 
-usersRoutes.get("/username", (req, res) => { return res.status(200).json(responses.success({ message: "Hit api/users/username" })) });
+usersRoutes.post("/login", usersController.login);
 
-usersRoutes.get("/account", requireUser, controller.account)
+usersRoutes.get("/search", (req, res) => { return res.status(200).json(responses.success({ message: "Hit api/users/search" })) });
 
 usersRoutes.get("/:userId", (req, res) => { return res.status(200).json(responses.success({ message: "Hit api/users/:userId" })) });
-
 
 module.exports = usersRoutes;

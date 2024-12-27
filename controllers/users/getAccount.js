@@ -1,6 +1,6 @@
 const responses = require('../../responses');
 
-const account = async (req, res) => {
+const getAccount = async (req, res) => {
     res.status(200).json(
         responses.success({
             message: "Account fetched.",
@@ -9,4 +9,4 @@ const account = async (req, res) => {
     );
 };
 
-module.exports = account;
+module.exports = getAccount;

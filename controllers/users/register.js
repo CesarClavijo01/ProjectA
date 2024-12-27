@@ -1,9 +1,8 @@
 const { User } = require('../../models');
 const responses = require('../../responses');
-const { passwordTest, hash } = require('../../password');
+const passwordHandler = require('../../password');
 const { generateJWT } = require('../../auth');
-const { test } = require('../../regex');
-const { getMissingFields, validators } = require('../../util');
+const { getMissingFields, validateField } = require('../../util');
 const config = require('./config.json');
 
 const registerUser = async (req, res) => {
@@ -23,7 +22,7 @@ const registerUser = async (req, res) => {
         reqPassword,
         conPassword
     };
-    
+
     // Validate fields
     const missingFields = getMissingFields(requiredFields)
     if (missingFields.length > 0) {
@@ -37,24 +36,35 @@ const registerUser = async (req, res) => {
     };
 
     // Validate first name
-    const firstNameResponse = validators.validateField("FirstName", firstName, config.firstName);
+    const firstNameResponse = validateField("FirstName", firstName, config.firstName);
     if (firstNameResponse) return res.status(400).json(firstNameResponse);
 
     // Validate last name
-    const lastNameResponse = validators.validateField("LastName", lastName, config.lastName);
+    const lastNameResponse = validateField("LastName", lastName, config.lastName);
     if (lastNameResponse) return res.status(400).json(lastNameResponse);
 
-    // Validate Email
-    const emailResponse = validators.validateFieldWithConfirmation("Email", reqEmail, conEmail, config.email);
-    if (emailResponse) return res.status(400).json(emailResponse);
-
     // Validate Username
-    const usernameResponse = validators.validateField("Username", username, config.username);
+    const usernameResponse = validateField("Username", username, config.username);
     if (usernameResponse) return res.status(400).json(usernameResponse);
 
+    // Compare emails
+    const isSame = reqEmail === conEmail;
+    if (!isSame) {
+        return res.status(400).json(
+            responses.error({
+                name: "InvalidEmail",
+                message: "Emails do not match."
+            })
+        );
+    };
+
+    // Validate Email
+    const emailResponse = validateField("Email", reqEmail, config.email);
+    if (emailResponse) return res.status(400).json(emailResponse);
+
     // Validate Password
-    const passwordResponse = passwordTest(reqPassword, conPassword);
-    if (passwordResponse.error) {
+    const passwordResponse = passwordHandler.passwordTest(reqPassword, conPassword);
+    if (passwordResponse) {
         return res.status(400).json(
             responses.error({
                 name: "InvalidPassword",
@@ -64,7 +74,7 @@ const registerUser = async (req, res) => {
     };
     try {
         // Existing email
-        const existingEmail = await User.scope('register').findOne({ where: { email: reqEmail } })
+        const existingEmail = await User.scope('id').findOne({ where: { email: reqEmail } })
         if (existingEmail) {
             return res.status(400).json(
                 responses.error({
@@ -74,7 +84,7 @@ const registerUser = async (req, res) => {
             );
         };
         // Existing username
-        const existingUsername = await User.scope('register').findOne({ where: { username } })
+        const existingUsername = await User.scope('id').findOne({ where: { username } })
         if (existingUsername) {
             return res.status(400).json(
                 responses.error({
@@ -84,7 +94,7 @@ const registerUser = async (req, res) => {
             );
         };
         // Hash password
-        const passwordHash = await hash(reqPassword);
+        const passwordHash = await passwordHandler.hash(reqPassword);
         // Create new user
         const newUser = await User.create({
             firstName,
