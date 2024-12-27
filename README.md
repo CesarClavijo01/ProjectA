@@ -106,26 +106,26 @@
 
     REQUIRES USER
 
-    - **GET /**
+    - **GET /api/users/account/**
 
         Get own account
 
-    - **PATCH /first-name**
+    - **PATCH /api/users/account/first-name**
 
         Update first name
 
-    - **PATCH /last-name**
+    - **PATCH /api/users/account/last-name**
 
         Update last name
 
-    - **PATCH /username**
+    - **PATCH /api/users/account/username**
 
         Update username
 
-    - **PATCH /email**
+    - **PATCH /api/users/account/email**
 
         Update email
 
-    - **PATCH /password**
+    - **PATCH /api/users/account/password**
 
         Update password
