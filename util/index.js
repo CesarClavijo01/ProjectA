@@ -1,4 +1,4 @@
 module.exports = {
     getMissingFields: require('./getMissingFields'),
-    validators: require('./validators')
-}
+    validateField: require('./validateField'),
+};

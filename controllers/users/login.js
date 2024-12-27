@@ -1,5 +1,5 @@
 const { User } = require('../../models');
-const { emailRegex } = require("../../regex");
+const { regexes } = require("../../regex");
 const responses = require("../../responses");
 const passwordHandler = require("../../password");
 const { generateJWT } = require('../../auth');
@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
             })
         );
     };
-    const whereClause = emailRegex.test(identifier) ? { email: identifier } : { username: identifier };
+    const whereClause = regexes.email.test(identifier) ? { email: identifier } : { username: identifier };
 
     try {
         const foundUser = await User.scope("login").findOne({ where: whereClause });
