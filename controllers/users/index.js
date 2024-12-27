@@ -1,6 +1,7 @@
 module.exports = {
     login: require('./login'),
     register: require('./register'),
-    account: require('./account'),
+    getAccount: require('./getAccount'),
+    deleteAccount: require('./deleteAccount'),
     update: require('./update'),
 };
