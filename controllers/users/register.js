@@ -2,8 +2,9 @@ const { User } = require('../../models');
 const responses = require('../../responses');
 const { passwordTest, hash } = require('../../password');
 const { generateJWT } = require('../../auth');
-const { emailTest, usernameTest } = require('../../regex');
-const { getMissingFields, confirmEntry } = require('../../util')
+const { test } = require('../../regex');
+const { getMissingFields, validators } = require('../../util');
+const config = require('./config.json');
 
 const registerUser = async (req, res) => {
     const {
@@ -15,8 +16,6 @@ const registerUser = async (req, res) => {
         reqPassword,
         conPassword
     } = req.body;
-    
-    // Validate fields
     const requiredFields = {
         username,
         reqEmail,
@@ -24,6 +23,8 @@ const registerUser = async (req, res) => {
         reqPassword,
         conPassword
     };
+    
+    // Validate fields
     const missingFields = getMissingFields(requiredFields)
     if (missingFields.length > 0) {
         return res.status(400).json(
@@ -35,33 +36,28 @@ const registerUser = async (req, res) => {
         );
     };
 
+    // Validate first name
+    const firstNameResponse = validators.validateField("FirstName", firstName, config.firstName);
+    if (firstNameResponse) return res.status(400).json(firstNameResponse);
+
+    // Validate last name
+    const lastNameResponse = validators.validateField("LastName", lastName, config.lastName);
+    if (lastNameResponse) return res.status(400).json(lastNameResponse);
+
     // Validate Email
-    const emailResponse = emailTest(reqEmail, conEmail);
-    if (emailResponse.error) {
-        return res.status(400).json(
-            responses.error({
-                name: "RegisterUser",
-                message: emailResponse.message
-            })
-        );
-    };
+    const emailResponse = validators.validateFieldWithConfirmation("Email", reqEmail, conEmail, config.email);
+    if (emailResponse) return res.status(400).json(emailResponse);
+
     // Validate Username
-    const usernameResponse = usernameTest(username);
-    if (usernameResponse.error) {
-        return res.status(400).json(
-            responses.error({
-                name: "RegisterUser",
-                message: usernameResponse.message
-            })
-        );
-    };
+    const usernameResponse = validators.validateField("Username", username, config.username);
+    if (usernameResponse) return res.status(400).json(usernameResponse);
+
     // Validate Password
     const passwordResponse = passwordTest(reqPassword, conPassword);
-    console.log(passwordResponse)
     if (passwordResponse.error) {
         return res.status(400).json(
             responses.error({
-                name: "RegisterUser",
+                name: "InvalidPassword",
                 message: passwordResponse.message
             })
         );
@@ -72,7 +68,7 @@ const registerUser = async (req, res) => {
         if (existingEmail) {
             return res.status(400).json(
                 responses.error({
-                    name: "RegisterUser",
+                    name: "InvalidEmail",
                     message: "Email already in use."
                 })
             );
@@ -82,7 +78,7 @@ const registerUser = async (req, res) => {
         if (existingUsername) {
             return res.status(400).json(
                 responses.error({
-                    name: "RegisterUser",
+                    name: "InvalidUsername",
                     message: "Username already in use."
                 })
             );
@@ -103,9 +99,8 @@ const registerUser = async (req, res) => {
         // Create token
         const token = generateJWT(user.id);
         // Return
-        return res.status(200).json(
+        return res.status(201).json(
             responses.success({
-                name: "RegisterUser",
                 message: "User registered successfully.",
                 data: {
                     user,
@@ -114,7 +109,6 @@ const registerUser = async (req, res) => {
             })
         );
     } catch (error) {
-        console.log(error)
         return res.status(500).json(
             responses.error({
                 name: "RegisterUser",

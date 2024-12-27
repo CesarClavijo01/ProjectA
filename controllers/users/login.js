@@ -45,7 +45,6 @@ const loginUser = async (req, res) => {
         );
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json(
             responses.error({
                 name: "LoginUser",

@@ -9,19 +9,19 @@ const verifyJWT = (token) => {
 
         // If there isnt an id, token isnt verified.
         if (!id) {
-            throw new Error('JWT malformed.');
+            throw new Error('VerifyJWT: JWT malformed.');
         };
         return verifiedToken;
 
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            throw Error('Token has expired.');
+            throw Error('VerifyJWT: Token has expired.');
         }
         if (error.name === 'JsonWebTokenError') {
-            throw new Error('Invalid token.');
+            throw new Error('VerifyJWT: Invalid token.');
         };
 
-        throw new Error('Error while verifying JWT.')
+        throw new Error('VerifyJWT: Error while verifying JWT.')
     };
 };
 

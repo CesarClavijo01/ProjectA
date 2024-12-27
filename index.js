@@ -9,6 +9,9 @@ app.use(cors())
 const helmet = require('helmet')
 app.use(helmet())
 
+const { attachUser } = require('./auth');
+app.use(attachUser);
+
 // JSON Formatting
 app.use(express.json());
 
