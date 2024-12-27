@@ -81,3 +81,51 @@
     ```bash
     npm run seed
     ```
+
+## Routes
+
+1. ### /api/users
+
+    - **POST /api/users/register**
+
+        Register a new user
+
+    - **POST /api/users/login**
+
+        Login an existing user
+
+    - **GET /api/users/search (incomplete)**
+
+        Search users by (username)?
+
+    - **GET /api/users/userId (incomplete)**
+
+        Get one user
+
+2. ### /api/users/account
+
+    REQUIRES USER
+
+    - **GET /**
+
+        Get own account
+
+    - **PATCH /first-name**
+
+        Update first name
+
+    - **PATCH /last-name**
+
+        Update last name
+
+    - **PATCH /username**
+
+        Update username
+
+    - **PATCH /email**
+
+        Update email
+
+    - **PATCH /password**
+
+        Update password
