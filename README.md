@@ -1,27 +1,83 @@
 # ProjectA
 
-SETUP (refer to package.json):
+## Setup Instructions
 
-in your terminal, run:
-    ### npm install
-        - installs dependencies (see (/package.json).dependencies)
-    ### npm run build:dev
-        - creates the database, runs all of the migrations, and seeds all the data
-    ### npm run start:dev
-        - utilizes nodemon to restart the server with every saved file
-    
-other npm functions:
-    ### npm run start
-        - Starts without nodemon, for production
-    ### npm run build
-        - creates the database and runs all of the migrations, doesn't seed data.
-    ### npm run create
-        - creates the database (see /config)
-    ### npm run migrate
-        - runs all of the migrations (see /migrations)
-    ### npm run undo_migrate
-        - rids the database of all migrations
-    ### npm run seed
-        - seeds all of the dummy data (see /seeders)
-    ### npm run undo_seed
-        - rids the database of all seeded data
+1. **Install Dependencies**
+
+    In your terminal, run the following command to install the required dependencies:
+
+    ```bash
+    npm install
+    ```
+
+    This will install all the dependencies listed in the `package.json` file.
+
+2. **Build Development Environment**
+
+    After installing the dependencies, run this command to create the database, run migrations, and seed the data:
+
+    ```bash
+    npm run build:dev
+    ```
+
+3. **Start Development Server**
+
+    To start the server in development mode (with `nodemon` to automatically restart the server on file changes), run:
+
+    ```bash
+    npm run start:dev
+    ```
+
+    This will run the server with live reloading enabled during development.
+
+---
+
+## Other NPM Scripts
+
+- **Start the Server in Production**
+
+    To start the server without `nodemon` (for production), run:
+
+    ```bash
+    npm run start
+    ```
+
+- **Build the Database and Run Migrations (without seeding)**
+
+    To create the database and run all migrations without seeding data, run:
+
+    ```bash
+    npm run build
+    ```
+
+- **Create the Database**
+
+    If you need to manually create the database (see `/config` for configuration), use:
+
+    ```bash
+    npm run create
+    ```
+
+- **Run Migrations**
+
+    To run all the migrations, run:
+
+    ```bash
+    npm run migrate
+    ```
+
+- **Undo Migrations**
+
+    To remove all migrations from the database, use:
+
+    ```bash
+    npm run undo_migrate
+    ```
+
+- **Seed Dummy Data**
+
+    To seed all of the dummy data (see `/seeders` for the data definition), use:
+
+    ```bash
+    npm run seed
+    ``
