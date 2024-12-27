@@ -1,8 +1,7 @@
-const { confirmEntry } = require("../util");
 const responses = require('../responses')
 
 const passwordTest = (reqPassword, conPassword) => {
-    const isSame = confirmEntry(reqPassword, conPassword)
+    const isSame = reqPassword === conPassword
     if (!isSame) {
         return responses.error({ message: "Passwords do not match." })
     };

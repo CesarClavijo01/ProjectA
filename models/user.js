@@ -52,10 +52,13 @@ module.exports = (sequelize, DataTypes) => {
     defaultScope: { attributes: ['id', 'firstName', 'lastName', 'username', 'createdAt', 'updatedAt'] },
     scopes: {
       register: {
-        attributes: ['id', 'firstName', 'lastName', 'email', 'username']
+        attributes: ['id']
       },
       login: {
         attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'hash']
+      },
+      attach: {
+        attributes: ['id', 'firstName', 'lastName', 'email', 'username']
       }
     }
   });

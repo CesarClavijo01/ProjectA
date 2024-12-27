@@ -1,0 +1,23 @@
+{
+    "firstName": {
+        "field":"firstName",
+        "lowerLength":2,
+        "upperLength":30
+    },
+    "lastName": {
+        "field":"lastName",
+        "lowerLength":2,
+        "upperLength":30
+    },
+    "email": {
+        "field": "email",
+        "lowerLength": 0,
+        "upperLength": 100,
+        "canProfane": true
+    },
+    "username": {
+        "field": "username",
+        "lowerLength": 8,
+        "upperLength": 16
+    }
+}

@@ -6,8 +6,7 @@ const generateJWT = (id) => {
         const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1w' })
         return token;
     } catch (error) {
-        console.log(error)
-        throw Error('Error while generating JWT.');
+        throw Error('GenerateJWT: Error while generating JWT.');
     };
 };
 

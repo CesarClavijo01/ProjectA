@@ -1,0 +1,1 @@
+module.exports = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/; // Allows letters and spaces
