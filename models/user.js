@@ -62,6 +62,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         attributes: ['id', 'hash']
+      },
+      search: {
+        attributes: ['id', 'username', 'createdAt']
       }
     }
   });

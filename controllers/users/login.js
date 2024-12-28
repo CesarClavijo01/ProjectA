@@ -45,10 +45,11 @@ const loginUser = async (req, res) => {
         );
 
     } catch (error) {
+        console.error(`Error while logging in user: ${error}`);
         return res.status(500).json(
             responses.error({
-                name: "LoginUser",
-                message: "Internal server error."
+                name: "InternalServer",
+                message: "Error while logging in user."
             })
         );
     };

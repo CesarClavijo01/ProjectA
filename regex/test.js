@@ -1,5 +1,5 @@
 const responses = require("../responses");
-const camelToSpaced = require("../util/camelToSpaced");
+const { camelToSpaced } = require("../util");
 const isProfane = require("./isProfane");
 
 const test = (valueToTest, {

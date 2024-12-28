@@ -2,7 +2,8 @@ const { User } = require('../../models');
 const responses = require('../../responses');
 const passwordHandler = require('../../password');
 const { generateJWT } = require('../../auth');
-const { getMissingFields, validateField } = require('../../util');
+const { getMissingFields } = require('../../util');
+const { validateField } = require("../../regex")
 const config = require('./config.json');
 
 const registerUser = async (req, res) => {
@@ -119,10 +120,11 @@ const registerUser = async (req, res) => {
             })
         );
     } catch (error) {
+        console.error(`Error while registering user: ${error}`);
         return res.status(500).json(
             responses.error({
-                name: "RegisterUser",
-                message: "Internal server error."
+                name: "InternalServer",
+                message: "Error while registering user."
             })
         );
     };

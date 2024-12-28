@@ -1,4 +1,4 @@
-const { test } = require('../regex');
+const test = require('./test')
 const responses = require('../responses');
 
 // Takes in a field name, the requested value for it, and it's configurations.
