@@ -1,0 +1,30 @@
+{
+    "firstName": {
+        "field": "firstName",
+        "type": "string",
+        "lowerLength": 2,
+        "upperLength": 30,
+        "checkProfane": true
+    },
+    "lastName": {
+        "field": "lastName",
+        "type": "string",
+        "lowerLength": 2,
+        "upperLength": 30,
+        "checkProfane": true
+    },
+    "email": {
+        "field": "email",
+        "type":"string",
+        "lowerLength": 0,
+        "upperLength": 100,
+        "checkProfane": false
+    },
+    "username": {
+        "field": "username",
+        "type": "string",
+        "lowerLength": 8,
+        "upperLength": 16,
+        "checkProfane": true
+    }
+}
