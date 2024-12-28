@@ -15,4 +15,6 @@ usersRoutes.get("/search", usersController.searchByUsername);
 
 usersRoutes.get("/:userId", usersController.getById);
 
+// GET /verify
+
 module.exports = usersRoutes;
