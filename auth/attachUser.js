@@ -1,5 +1,5 @@
 const verifyJWT = require('./verifyJWT');
-const { User } = require('../models');
+const models = require('../models');
 const responses = require("../responses");
 
 const attachUser = async (req, res, next) => {
@@ -31,10 +31,13 @@ const attachUser = async (req, res, next) => {
             // If it verified
             if (verifiedToken) {
                 // Attach
-                req.user = await User.scope('attach').findByPk(verifiedToken.id, {
-                    attributes: {
-                        exclude: ['hash']
-                    }
+                req.user = await models.User.scope('attach').findByPk(verifiedToken.id, {
+                    include: [{
+                        model: models.Role,
+                        as: "roles",
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    }]
                 });
             };
             // Pass

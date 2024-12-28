@@ -4,9 +4,6 @@ const { requireUser } = require('../middleware');
 const { users: usersController } = require("../controllers")
 const responses = require('../responses')
 
-const accountRoutes = require("./account");
-usersRoutes.use("/account", requireUser, accountRoutes)
-
 usersRoutes.post("/register", usersController.register);
 
 usersRoutes.post("/login", usersController.login);

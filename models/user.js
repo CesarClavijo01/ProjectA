@@ -8,12 +8,13 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       User.belongsToMany(models.Role, {
-        through: "UserRoles",
-        foreignKey: "userId"
+        through: models.UserRole,
+        foreignKey: "userId",
+        as: "roles"
       })
     };
 
-  }
+  };
 
   User.init({
     id: {
@@ -52,17 +53,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
-    defaultScope: { attributes: ['id', 'firstName', 'lastName', 'username', 'createdAt', 'updatedAt'] },
+    defaultScope: { attributes: { exclude: ['hash', 'email'] } },
     scopes: {
       id: {
         attributes: ['id']
       },
-      login: {
-        attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'hash', 'createdAt', 'updatedAt']
-      },
       attach: {
-        attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'createdAt', 'updatedAt']
+        attributes: { exclude: ['hash'] }
       },
+      login: {},
       password: {
         attributes: ['id', 'hash']
       },

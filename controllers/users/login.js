@@ -18,9 +18,9 @@ const loginUser = async (req, res) => {
     const whereClause = regexes.email.test(identifier) ? { email: identifier } : { username: identifier };
 
     try {
-        const foundUser = await User.scope("login").findOne({ where: whereClause });
-
-        if (!foundUser || !passwordHandler.compare(password, foundUser.hash)) {
+        const foundUser = await User.scope('login').findOne({ where: whereClause });
+        const isPassword = await passwordHandler.compare(password, foundUser.hash)
+        if (!foundUser || !isPassword) {
             return res.status(404).json(
                 responses.error({
                     name: "LoginUser",
