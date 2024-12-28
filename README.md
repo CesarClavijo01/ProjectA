@@ -94,13 +94,18 @@
 
         Login an existing user
 
-    - **GET /api/users/search (incomplete)**
+    - **GET /api/users/search**
 
-        Search users by (username)?
+        Search users by username with pagination:
 
-    - **GET /api/users/userId (incomplete)**
+        - Query parameters:
+          - `username` (required): Partial username to search for.
+          - `limit` (optional): Number of results per page (default: 10).
+          - `page` (optional): Page index for results (default: 0).
 
-        Get one user
+    - **GET /api/users/:userId**
+
+        Get a single user by their user ID.
 
 2. ### /api/users/account
 
@@ -129,3 +134,4 @@
     - **PATCH /api/users/account/password**
 
         Update password
+
