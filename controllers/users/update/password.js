@@ -26,7 +26,7 @@ const updatePassword = async (req, res) => {
         if (!user) {
             return res.status(404).json(
                 responses.error({
-                    name: "UpdatePassword",
+                    name: "UserNotFound",
                     message: "User not found."
                 })
             );
@@ -37,7 +37,7 @@ const updatePassword = async (req, res) => {
         if (isSame) {
             return res.status(400).json(
                 responses.error({
-                    name: "UpdatePassword",
+                    name: "InvalidPassword",
                     message: "Password cannot be the same as the old password."
                 })
             );
@@ -55,10 +55,11 @@ const updatePassword = async (req, res) => {
         );
 
     } catch (error) {
+        console.error(`Error while updating user password: ${error}`);
         return res.status(500).json(
             responses.error({
-                name: "UpdatePassword",
-                message: "Internal server error."
+                name: "InternalServer",
+                message: "Error while updating password."
             })
         );
     };

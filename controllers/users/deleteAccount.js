@@ -26,11 +26,11 @@ const deleteAccount = async (req, res) => {
             })
         );
     } catch (error) {
-        console.error("Error deleting user:", error);
+        console.error("Error while deleting user:", error);
         return res.status(500).json(
             responses.error({
-                name: "DeleteAccount",
-                message: "Internal server error.",
+                name: "InternalServer",
+                message: "Error while deleting account.",
             })
         );
     };

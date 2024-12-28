@@ -1,7 +1,7 @@
 const { User } = require('../../../models');
 const responses = require('../../../responses');
 const config = require("../config.json");
-const { validateField } = require("../../../util");
+const { validateField } = require("../../../regex");
 
 const updateEmail = async (req, res) => {
     const { reqEmail, conEmail } = req.body;
@@ -10,7 +10,7 @@ const updateEmail = async (req, res) => {
     if (!reqEmail || typeof (reqEmail) !== "string") {
         return res.status(400).json(
             responses.error({
-                name: "UpdateEmail",
+                name: "InvalidEmail",
                 message: "Supply an email."
             })
         );
@@ -20,7 +20,7 @@ const updateEmail = async (req, res) => {
     if (!conEmail || typeof (conEmail) !== "string") {
         return res.status(400).json(
             responses.error({
-                name: "UpdateEmail",
+                name: "InvalidEmail",
                 message: "Confirm email."
             })
         );
@@ -69,7 +69,7 @@ const updateEmail = async (req, res) => {
         if (!user) {
             return res.status(404).json(
                 responses.error({
-                    name: "UpdateEmail",
+                    name: "UserNotFound",
                     message: "User not found."
                 })
             );
@@ -89,10 +89,11 @@ const updateEmail = async (req, res) => {
 
     } catch (error) {
         // Server Error
+        console.error(`Error while updating user email: ${error}`);
         return res.status(500).json(
             responses.error({
-                name: "UpdateEmail",
-                message: "Internal server error."
+                name: "InternalServer",
+                message: "Error while updating email."
             })
         );
     };

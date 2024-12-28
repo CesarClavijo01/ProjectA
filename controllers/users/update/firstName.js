@@ -1,7 +1,7 @@
 const config = require("../config.json")
 const { User } = require('../../../models');
 const responses = require('../../../responses');
-const { validateField } = require('../../../util');
+const { validateField } = require('../../../regex');
 
 const updateFirstName = async (req, res) => {
     const { firstName } = req.body;
@@ -9,7 +9,7 @@ const updateFirstName = async (req, res) => {
     if (!firstName || typeof(firstName) !== "string") {
         return res.status(400).json(
             responses.error({
-                name: "UpdateFirstName",
+                name: "InvalidFirstName",
                 message: "Supply a first name."
             })
         );
@@ -36,7 +36,7 @@ const updateFirstName = async (req, res) => {
         if (!user) {
             return res.status(404).json(
                 responses.error({
-                    name: "UpdateFirstName",
+                    name: "UserNotFound",
                     message: "User not found."
                 })
             );
@@ -56,10 +56,11 @@ const updateFirstName = async (req, res) => {
 
     } catch (error) {
         // Server error
+        console.error(`Error while updating user first name: ${error}`);
         return res.status(500).json(
             responses.error({
-                name: "UpdateFirstName",
-                message: "Internal server error."
+                name: "InternalServer",
+                message: "Error while updating first name."
             })
         )
     }
