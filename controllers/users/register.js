@@ -1,4 +1,4 @@
-const { User } = require('../../models');
+const models = require('../../models');
 const responses = require('../../responses');
 const passwordHandler = require('../../password');
 const { generateJWT } = require('../../auth');
@@ -75,7 +75,7 @@ const registerUser = async (req, res) => {
     };
     try {
         // Existing email
-        const existingEmail = await User.scope('id').findOne({ where: { email: reqEmail } })
+        const existingEmail = await models.User.scope('id').findOne({ where: { email: reqEmail } })
         if (existingEmail) {
             return res.status(400).json(
                 responses.error({
@@ -85,7 +85,7 @@ const registerUser = async (req, res) => {
             );
         };
         // Existing username
-        const existingUsername = await User.scope('id').findOne({ where: { username } })
+        const existingUsername = await models.User.scope('id').findOne({ where: { username } })
         if (existingUsername) {
             return res.status(400).json(
                 responses.error({
@@ -96,19 +96,37 @@ const registerUser = async (req, res) => {
         };
         // Hash password
         const passwordHash = await passwordHandler.hash(reqPassword);
+
         // Create new user
-        const newUser = await User.create({
+        const newUser = await models.User.create({
             firstName,
             lastName,
             username,
             email: reqEmail,
             hash: passwordHash
         });
+
+        // Assign default role (User)
+        const role = await models.UserRole.create({
+            userId: newUser.id,
+            roleId: 1
+        });
+        if (!role) {
+            return res.status(500).json(
+                responses.error({
+                    name: "CreateRole",
+                    message: "Error creating user role."
+                })
+            );
+        };
+
         // Delete hash
         const user = { ...newUser.toJSON() };
         delete user.hash;
+
         // Create token
         const token = generateJWT(user.id);
+
         // Return
         return res.status(201).json(
             responses.success({

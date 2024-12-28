@@ -107,31 +107,39 @@
 
         Get a single user by their user ID.
 
-2. ### /api/users/account
+2. ### /api/account
 
     REQUIRES USER
 
-    - **GET /api/users/account/**
+    - **GET /api/account/**
 
         Get own account
 
-    - **PATCH /api/users/account/first-name**
+    - **PATCH /api/account/first-name**
 
         Update first name
 
-    - **PATCH /api/users/account/last-name**
+    - **PATCH /api/account/last-name**
 
         Update last name
 
-    - **PATCH /api/users/account/username**
+    - **PATCH /api/account/username**
 
         Update username
 
-    - **PATCH /api/users/account/email**
+    - **PATCH /api/account/email**
 
         Update email
 
-    - **PATCH /api/users/account/password**
+    - **PATCH /api/account/password**
 
         Update password
 
+3. ### /api/admin
+
+    REQUIRES USER
+    REQUIRES ADMIN PERMISSIONS
+
+    - **POST /api/amin/add-role**
+
+        Creates a UserRole entry, adds a role to a user.

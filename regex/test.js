@@ -4,15 +4,10 @@ const isProfane = require("./isProfane");
 
 const test = (valueToTest, {
     field,
-    type,
     lowerLength,
     upperLength,
     checkProfane
 }) => {
-    // Parameter Type Checks
-    if (typeof(field) !== type) {
-        return responses.error({ message: `\`field\` arg must be of type ${type}.` });
-    };
     // Capitalization (for error messaging)
     const stringedField = camelToSpaced(field);
     const upperField = stringedField.charAt(0).toUpperCase() + stringedField.slice(1);
@@ -20,7 +15,7 @@ const test = (valueToTest, {
         return responses.error({ message: `Supply a ${stringedField}.` })
     }
     if (typeof(valueToTest) !== "string") {
-        return responses.error({ message: `\`valueToTest\` arg must be of type ${type}.` });
+        return responses.error({ message: `\`valueToTest\` arg must be of type string.` });
     };
     if (typeof(lowerLength) !== "number") {
         return responses.error({ message: "`lowerLength` arg must be whole number." });
