@@ -64,6 +64,9 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       id: {
         attributes: ['id']
+      },
+      roleId: {
+        attributes: ['id', 'roleId']
       }
     }
   });

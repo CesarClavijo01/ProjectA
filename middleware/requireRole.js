@@ -1,6 +1,6 @@
 const responses = require('../responses');
 
-const requirePermissions = (roleId) => {
+const requireRole = (roleId) => {
     return async (req, res, next) => {
         try {
             // Check if the user has the role id
@@ -19,7 +19,7 @@ const requirePermissions = (roleId) => {
             next();
 
         } catch (error) {
-            console.error("Error in requirePermissions middleware:", error);
+            console.error("Error in requireRole middleware:", error);
             return res.status(500).json(
                 responses.error({
                     name: "InternalServerError",
@@ -29,4 +29,4 @@ const requirePermissions = (roleId) => {
         }
     };
 };
-module.exports = requirePermissions;
+module.exports = requireRole;

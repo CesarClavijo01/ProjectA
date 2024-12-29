@@ -34,8 +34,20 @@ module.exports = {
         roleId: 3
       },
       {
+        userId: user1.id,
+        roleId: 2
+      },
+      {
+        userId: user1.id,
+        roleId: 1
+      },
+      {
         userId: user2.id,
         roleId: 2
+      },
+      {
+        userId: user2.id,
+        roleId: 1
       },
       ...baseRoleAssignments
     ])
