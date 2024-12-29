@@ -96,13 +96,13 @@
 
             ```
             {
-                firstName: "John",                          // Optional: First name of the user
-                lastName: "Doe",                            // Optional: Last name of the user
-                username: "johndoe123",                     // Required: Unique username for the user
-                reqEmail (requested): "john@example.com",   // Required: Requested email address, must be a valid email format.
-                conEmail (confirmed): "john@example.com",   // Required: Confirmed email address, must match reqEmail.
-                reqPassword (requested): "Password123!",    // Required: Requested password, must meet security criteria.
-                conPassword (confirmed): "Password123!"     // Required: Confirmed password, must match reqPassword.
+                firstName: "John",                       // Optional: First name of the user
+                lastName: "Doe",                         // Optional: Last name of the user
+                username: "johndoe123",                  // Required: Unique username for the user
+                reqEmail (requested): "john@example.com",// Required: Requested email address, must be a valid email format.
+                conEmail (confirmed): "john@example.com",// Required: Confirmed email address, must match reqEmail.
+                reqPassword (requested): "Password123!", // Required: Requested password, must meet security criteria.
+                conPassword (confirmed): "Password123!"  // Required: Confirmed password, must match reqPassword.
             }
             ```
 
