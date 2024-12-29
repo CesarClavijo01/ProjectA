@@ -1,6 +1,6 @@
-const responses = require("../../responses");
-const { User, Role, UserRole } = require("../../models");
 const { Op } = require("sequelize");
+const responses = require("../../../responses");
+const { User, Role, UserRole } = require("../../../models");
 
 const addRole = async (req, res) => {
     const { userId } = req.params;
