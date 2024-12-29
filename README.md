@@ -94,7 +94,7 @@
 
     - **Request Body**:
 
-        ```json
+        ```
         {
             firstName: "John",                          // Optional: First name of the user
             lastName: "Doe",                            // Optional: Last name of the user
