@@ -86,7 +86,7 @@
 
 1. ### /api/users
 
-    - **POST /api/users/register**
+    1. ### POST /api/users/register
 
         - **Description**:
         
