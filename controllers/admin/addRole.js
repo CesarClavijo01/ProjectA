@@ -1,5 +1,6 @@
 const responses = require("../../responses");
 const { User, Role, UserRole } = require("../../models");
+const { Op } = require("sequelize");
 
 const addRole = async (req, res) => {
     const { userId } = req.params;
@@ -42,19 +43,45 @@ const addRole = async (req, res) => {
                     message: "User already has this role."
                 })
             );
-        }
+        };
 
-        // Create the UserRole association
-        await UserRole.create({
-            userId,
-            roleId
+        // Find role and all sub roles
+        const roles = await Role.scope("name").findAll({
+            where: { id: { [Op.lte]: roleId } }
         });
 
+        // Grab any pre-existing roles or sub roles
+        const existingUserRoles = await UserRole.scope("roleId").findAll({
+            where: { userId, roleId: { [Op.lte]: roleId } }
+        });
+
+        // Create an array of existing role ids
+        const existingRoleIds = existingUserRoles.map(ur => ur.roleId);
+
+        // Filter roles to add: those not already assigned
+        const rolesToAdd = roles.filter(role => !existingRoleIds.includes(role.id));
+
+        // Verify there is at least 1 to apply
+        if (rolesToAdd.length === 0) {
+            return res.status(400).json(
+                responses.error({
+                    name: "RolesAssigned",
+                    message: "These permissions are already assigned to this user"
+                })
+            );
+        };
+
+        // Create them
+        await UserRole.bulkCreate(rolesToAdd.map(role => ({ userId, roleId: role.id })));
+        
+        // Return
         return res.status(200).json(
             responses.success({
-                message: "Role added to user successfully."
+                message: "Role added to user successfully.",
+                data: rolesToAdd
             })
         );
+
     } catch (error) {
         console.error("Error adding role to user:", error);
         return res.status(500).json(
@@ -63,7 +90,7 @@ const addRole = async (req, res) => {
                 message: "Error while adding role to user."
             })
         );
-    }
+    };
 };
 
 module.exports = addRole;

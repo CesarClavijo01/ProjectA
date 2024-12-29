@@ -143,3 +143,7 @@
     - **POST /api/amin/add-role**
 
         Creates a UserRole entry, adds a role to a user.
+        
+    - **POST /api/amin/add-role**
+
+        Removes a UserRole entry, removes a role from a user.
