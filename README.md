@@ -109,26 +109,49 @@
         - **Responses**:
 
             - `201 Created`: User successfully registered. Returns user data (e.g., `id`, `username`) and a JWT token.
-            - `400 Bad Request`: One or more required fields are missing, emails do not match, or username/email is already in use, or password mismatch.
+            - `400 Bad Request`: One or more required fields are missing, emails do not match, username/email is already in use, or password mismatch.
             - `500 Internal Server Error`: If there was an error while registering the user, the server will return a generic error message.
 
 
-    - **POST /api/users/login**
+    - ### POST /api/users/login
 
-        Login an existing user
+        - **Description**:
+        
+            Login an existing user
+
+        - **Request Body**:
+
+            ```
+            ```
+        
+        - **Responses**:
+
 
     - **GET /api/users/search**
+        
+        - **Description**:
+        
+            Search users by username with pagination
 
-        Search users by username with pagination:
+        - **Query parameters**:
 
-        - Query parameters:
           - `username` (required): Partial username to search for.
           - `limit` (optional): Number of results per page (default: 10).
           - `page` (optional): Page index for results (default: 0).
 
+        - **Responses**:
+
     - **GET /api/users/:userId**
 
-        Get a single user by their user ID.
+        - **Description**:
+
+            Get a single user by their user ID.
+
+        - **Parameters**:
+
+            - `userId`: Requested user's id, UUID format.
+
+        - **Responses**:
 
 2. ### /api/account
 
