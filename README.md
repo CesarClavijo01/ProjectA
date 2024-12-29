@@ -88,29 +88,29 @@
 
     - **POST /api/users/register**
 
-    - **Description**:
-    
-        Registers a new user.
+        - **Description**:
+        
+            Registers a new user.
 
-    - **Request Body**:
+        - **Request Body**:
 
-        ```
-        {
-            firstName: "John",                          // Optional: First name of the user
-            lastName: "Doe",                            // Optional: Last name of the user
-            username: "johndoe123",                     // Required: Unique username for the user
-            reqEmail (requested): "john@example.com",   // Required: Requested email address, must be a valid email format.
-            conEmail (confirmed): "john@example.com",   // Required: Confirmed email address, must match reqEmail.
-            reqPassword (requested): "Password123!",    // Required: Requested password, must meet security criteria.
-            conPassword (confirmed): "Password123!"     // Required: Confirmed password, must match reqPassword.
-        }
-        ```
+            ```
+            {
+                firstName: "John",                          // Optional: First name of the user
+                lastName: "Doe",                            // Optional: Last name of the user
+                username: "johndoe123",                     // Required: Unique username for the user
+                reqEmail (requested): "john@example.com",   // Required: Requested email address, must be a valid email format.
+                conEmail (confirmed): "john@example.com",   // Required: Confirmed email address, must match reqEmail.
+                reqPassword (requested): "Password123!",    // Required: Requested password, must meet security criteria.
+                conPassword (confirmed): "Password123!"     // Required: Confirmed password, must match reqPassword.
+            }
+            ```
 
-    - **Responses**:
+        - **Responses**:
 
-        - `201 Created`: User successfully registered. Returns user data (e.g., `id`, `username`) and a JWT token.
-        - `400 Bad Request`: One or more required fields are missing, emails do not match, or username/email is already in use, or password mismatch.
-        - `500 Internal Server Error`: If there was an error while registering the user, the server will return a generic error message.
+            - `201 Created`: User successfully registered. Returns user data (e.g., `id`, `username`) and a JWT token.
+            - `400 Bad Request`: One or more required fields are missing, emails do not match, or username/email is already in use, or password mismatch.
+            - `500 Internal Server Error`: If there was an error while registering the user, the server will return a generic error message.
 
 
     - **POST /api/users/login**
