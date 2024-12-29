@@ -10,7 +10,7 @@
     npm install
     ```
 
-    This will install all the dependencies listed in the `package.json` file.
+    This will install all the dependencies listed in the `package.json` file. You may be prompted to install `sequelize-cli`.
 
 2. **Build Development Environment**
 
