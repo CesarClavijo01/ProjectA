@@ -1,4 +1,4 @@
-const models = require('../../models');
+const { User, Role, UserRole } = require('../../models');
 const responses = require('../../responses');
 const passwordHandler = require('../../password');
 const { generateJWT } = require('../../auth');
@@ -75,7 +75,7 @@ const registerUser = async (req, res) => {
     };
     try {
         // Existing email
-        const existingEmail = await models.User.scope('id').findOne({ where: { email: reqEmail } })
+        const existingEmail = await User.scope('id').findOne({ where: { email: reqEmail } })
         if (existingEmail) {
             return res.status(400).json(
                 responses.error({
@@ -85,7 +85,7 @@ const registerUser = async (req, res) => {
             );
         };
         // Existing username
-        const existingUsername = await models.User.scope('id').findOne({ where: { username } })
+        const existingUsername = await User.scope('id').findOne({ where: { username } })
         if (existingUsername) {
             return res.status(400).json(
                 responses.error({
@@ -98,7 +98,7 @@ const registerUser = async (req, res) => {
         const passwordHash = await passwordHandler.hash(reqPassword);
 
         // Create new user
-        const newUser = await models.User.create({
+        const newUser = await User.create({
             firstName,
             lastName,
             username,
@@ -106,11 +106,17 @@ const registerUser = async (req, res) => {
             hash: passwordHash
         });
 
-        // Assign default role (User)
-        const role = await models.UserRole.create({
+        // Grab the basic role
+        const basicRole = await Role.findOne({
+            where: { name: "User" }
+        })
+
+        // Assign the role
+        const role = await UserRole.create({
             userId: newUser.id,
-            roleId: 1
+            roleId: basicRole.id
         });
+
         if (!role) {
             return res.status(500).json(
                 responses.error({

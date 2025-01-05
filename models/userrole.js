@@ -29,22 +29,23 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4
     },
     userId: {
       type: DataTypes.UUID,
       allowNull: false,
-      validate: {
-        notNull: { msg: 'userId is required' },
-        isUUID: { args: 4, msg: 'userId must be a valid UUID' }
+      references: {
+        model: 'Users',
+        key: 'id'
       }
     },
     roleId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
-      validate: {
-        notNull: { msg: 'roleId is required' },
-        isInt: { msg: 'roleId must be an integer' }
+      references: {
+        model: 'Roles',
+        key: 'id'
       }
     },
     createdAt: {

@@ -17,7 +17,8 @@ const deleteAccount = async (req, res) => {
             );
         };
 
-        // Delete the user
+        // Soft-delete the user
+        // Can be recovered by an admin
         await user.destroy();
 
         return res.status(200).json(
