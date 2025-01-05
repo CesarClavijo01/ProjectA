@@ -50,23 +50,34 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
+    deletedAt: {
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'User',
-    defaultScope: { attributes: { exclude: ['hash', 'email'] } },
+    paranoid: true,
+    deletedAt: 'deletedAt',
+    timestamps: true,
+    defaultScope: { attributes: { exclude: ['hash', 'email', 'deletedAt'] } },
     scopes: {
       id: {
         attributes: ['id']
       },
       attach: {
-        attributes: { exclude: ['hash'] }
+        attributes: { exclude: ['hash', 'deletedAt'] }
       },
-      login: {},
+      login: {
+        attributes: { exclude: ['deletedAt'] }
+      },
       password: {
         attributes: ['id', 'hash']
       },
       search: {
         attributes: ['id', 'username', 'createdAt']
+      },
+      delete: {
+        attributes: ['id', 'deletedAt']
       }
     }
   });

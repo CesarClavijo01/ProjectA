@@ -1,10 +1,10 @@
 const responses = require('../responses');
 
-const requireRole = (roleId) => {
+const requireRole = (requiredRole) => {
     return async (req, res, next) => {
         try {
             // Check if the user has the role id
-            const canDo = req.user.roles.some(role => role.id === roleId);
+            const canDo = req.user.roles.some(role => role.name === requiredRole);
 
             if (!canDo) {
                 return res.status(403).json(

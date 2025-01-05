@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable("UserRoles", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        defaultValue: Sequelize.fn('uuid_generate_v4'),
+        type: Sequelize.UUID,
       },
       userId: {
         type: Sequelize.UUID,
@@ -20,7 +20,7 @@ module.exports = {
         onDelete: "CASCADE"
       },
       roleId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
           model: 'Roles',

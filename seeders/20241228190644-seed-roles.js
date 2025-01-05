@@ -17,6 +17,10 @@ module.exports = {
         description: "Full permissions"
       },
     ], {})
+    const roles = await queryInterface.sequelize.query(
+      `SELECT id FROM "Roles";`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
     const users = await queryInterface.sequelize.query(
       `SELECT id FROM "Users";`,
       { type: Sequelize.QueryTypes.SELECT }
@@ -25,29 +29,29 @@ module.exports = {
 
     const baseRoleAssignments = rest.map(user => ({
       userId: user.id,
-      roleId: 1
+      roleId: roles[0].id
     }));
 
     await queryInterface.bulkInsert("UserRoles", [
       {
         userId: user1.id,
-        roleId: 3
+        roleId: roles[2].id
       },
       {
         userId: user1.id,
-        roleId: 2
+        roleId: roles[1].id
       },
       {
         userId: user1.id,
-        roleId: 1
+        roleId: roles[0].id
       },
       {
         userId: user2.id,
-        roleId: 2
+        roleId: roles[1].id
       },
       {
         userId: user2.id,
-        roleId: 1
+        roleId: roles[0].id
       },
       ...baseRoleAssignments
     ])
