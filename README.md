@@ -10,7 +10,7 @@
     npm install
     ```
 
-    This will install all the dependencies listed in the `package.json` file.
+    This will install all the dependencies listed in the `package.json` file. You may be prompted to install `sequelize-cli`.
 
 2. **Build Development Environment**
 
@@ -96,39 +96,62 @@
 
             ```
             {
-                firstName: "John",                          // Optional: First name of the user
-                lastName: "Doe",                            // Optional: Last name of the user
-                username: "johndoe123",                     // Required: Unique username for the user
-                reqEmail (requested): "john@example.com",   // Required: Requested email address, must be a valid email format.
-                conEmail (confirmed): "john@example.com",   // Required: Confirmed email address, must match reqEmail.
-                reqPassword (requested): "Password123!",    // Required: Requested password, must meet security criteria.
-                conPassword (confirmed): "Password123!"     // Required: Confirmed password, must match reqPassword.
+                firstName: "John",              // Optional: First name of the user
+                lastName: "Doe",                // Optional: Last name of the user
+                username: "johndoe123",         // Required: Unique username for the user
+                reqEmail: "john@example.com",   // Required: Requested email address, must be a valid email format.
+                conEmail: "john@example.com",   // Required: Confirmed email address, must match reqEmail.
+                reqPassword: "Password123!",    // Required: Requested password, must meet security criteria.
+                conPassword: "Password123!"     // Required: Confirmed password, must match reqPassword.
             }
             ```
 
         - **Responses**:
 
             - `201 Created`: User successfully registered. Returns user data (e.g., `id`, `username`) and a JWT token.
-            - `400 Bad Request`: One or more required fields are missing, emails do not match, or username/email is already in use, or password mismatch.
+            - `400 Bad Request`: One or more required fields are missing, emails do not match, username/email is already in use, or password mismatch.
             - `500 Internal Server Error`: If there was an error while registering the user, the server will return a generic error message.
 
 
-    - **POST /api/users/login**
+    - ### POST /api/users/login
 
-        Login an existing user
+        - **Description**:
+        
+            Login an existing user
+
+        - **Request Body**:
+
+            ```
+            ```
+        
+        - **Responses**:
+
 
     - **GET /api/users/search**
+        
+        - **Description**:
+        
+            Search users by username with pagination
 
-        Search users by username with pagination:
+        - **Query parameters**:
 
-        - Query parameters:
           - `username` (required): Partial username to search for.
           - `limit` (optional): Number of results per page (default: 10).
           - `page` (optional): Page index for results (default: 0).
 
+        - **Responses**:
+
     - **GET /api/users/:userId**
 
-        Get a single user by their user ID.
+        - **Description**:
+
+            Get a single user by their user ID.
+
+        - **Parameters**:
+
+            - `userId`: Requested user's id, UUID format.
+
+        - **Responses**:
 
 2. ### /api/account
 

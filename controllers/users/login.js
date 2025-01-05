@@ -19,12 +19,11 @@ const loginUser = async (req, res) => {
 
     try {
         const foundUser = await User.scope('login').findOne({ where: whereClause });
-        const isPassword = await passwordHandler.compare(password, foundUser.hash)
-        if (!foundUser || !isPassword) {
-            return res.status(404).json(
+        if (!foundUser || !await passwordHandler.compare(password, foundUser.hash)) {
+            return res.status(400).json(
                 responses.error({
                     name: "LoginUser",
-                    message: "Invalid username/email/password."
+                    message: "Invalid credentials."
                 })
             );
         };

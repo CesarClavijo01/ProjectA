@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const db = require('./models')
+const db = require('./models');
 
 // Security
 const cors = require('cors')
@@ -30,6 +30,7 @@ app.use('*', (req, res) => {
     );
 });
 
+require("./schedulers/taskRegistry");
 // Sync database and start
 const PORT = process.env.SERVER_PORT
 db.sequelize.sync().then(() => {
