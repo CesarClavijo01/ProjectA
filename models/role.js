@@ -14,7 +14,21 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserRole,
         foreignKey: "roleId",
         as: "users"
-      })
+      });
+
+      Role.belongsToMany(Role, {
+        through: 'RoleHierarchy',
+        as: "parentRoles",
+        foreignKey: "childId",
+        otherKey: "parentId"
+      });
+
+      Role.belongsToMany(Role, {
+        through: "RoleHierarchy",
+        as: "childrenRoles",
+        foreignKey: "parentId",
+        otherKey: "childId"
+      });
     }
   }
   Role.init({

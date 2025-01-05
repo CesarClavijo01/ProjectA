@@ -24,7 +24,7 @@ const recoverUser = async (req, res) => {
         };
 
         // If already active
-        if (user.deletedAt === undefined) {
+        if (!user.deletedAt) {
             // Error out
             return res.status(400).json(
                 responses.error({
@@ -33,22 +33,23 @@ const recoverUser = async (req, res) => {
                     data: { userId }
                 })
             );
-        }
+        };
 
         // Recover the user
-        await User.restore({ where: { id: userId } });
+        await user.restore();
 
         // Log admin action
         await AdminAction.create({
             adminId,
-            userId,
-            action: `Recovered user id#${userId}`
+            action: `Recover user`,
+            details: `User with id#${userId} was recovered. ${new Date().toLocaleString()}`
         });
 
         // Return
         return res.status(200).json(
             responses.success({
-                message: "User recovered successfully."
+                message: "User recovered successfully.",
+                data: { user }
             })
         );
 

@@ -1,10 +1,9 @@
 const { Op } = require("sequelize");
 const responses = require("../../../responses");
-const { User, Role, UserRole } = require("../../../models");
+const { User, Role, UserRole, RoleHierarchy } = require("../../../models");
 
-const addRole = async (req, res) => {
-    const { userId } = req.params;
-    const { roleId } = req.body;
+const assignRole = async (req, res) => {
+    const { userId, roleId } = req.body;
 
     try {
         // Check if the user exists
@@ -30,7 +29,7 @@ const addRole = async (req, res) => {
         }
 
         // Check if the user already has the role
-        const existingUserRole = await UserRole.scope('id').findOne({
+        const existingUserRole = await UserRole.findOne({
             where: {
                 userId,
                 roleId
@@ -45,40 +44,38 @@ const addRole = async (req, res) => {
             );
         };
 
-        // Find role and all sub roles
-        const roles = await Role.scope("name").findAll({
-            where: { id: { [Op.lte]: roleId } }
-        });
+        await UserRole.create({ userId, roleId });
 
-        // Grab any pre-existing roles or sub roles
-        const existingUserRoles = await UserRole.scope("roleId").findAll({
-            where: { userId, roleId: { [Op.lte]: roleId } }
-        });
+        const assignChildrenRoles = async (parentId) => {
+            // Grab all the child roles
+            const childRoles = await RoleHierarchy.findAll({
+                where: { parentId }
+            });
 
-        // Create an array of existing role ids
-        const existingRoleIds = existingUserRoles.map(ur => ur.roleId);
+            // Iterate over the child roles
+            for (const childRole of childRoles) {
+                // Create a role for that user
+                const existingChildRole = await UserRole.scope('id').findOne({
+                    where: { userId, roleId: childRole.childId }
+                });
 
-        // Filter roles to add: those not already assigned
-        const rolesToAdd = roles.filter(role => !existingRoleIds.includes(role.id));
+                // If the user doesn't already have the child role, assign it
+                if (!existingChildRole) {
+                    await UserRole.create({ userId, roleId: childRole.childId });
+                };
 
-        // Verify there is at least 1 to apply
-        if (rolesToAdd.length === 0) {
-            return res.status(400).json(
-                responses.error({
-                    name: "RolesAssigned",
-                    message: "These permissions are already assigned to this user"
-                })
-            );
+                // Recurse and assign all children
+                await assignChildrenRoles(childRole.childId);
+            };
         };
 
-        // Create them
-        await UserRole.bulkCreate(rolesToAdd.map(role => ({ userId, roleId: role.id })));
-        
+        // Assign the children roles
+        await assignChildrenRoles(roleId);
+
         // Return
         return res.status(200).json(
             responses.success({
                 message: "Role added to user successfully.",
-                data: rolesToAdd
             })
         );
 
@@ -93,4 +90,4 @@ const addRole = async (req, res) => {
     };
 };
 
-module.exports = addRole;
+module.exports = assignRole;

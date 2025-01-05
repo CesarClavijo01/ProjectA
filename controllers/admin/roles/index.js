@@ -1,4 +1,4 @@
 module.exports = {
-    addRole: require("./addRole"),
+    assignRole: require("./assignRole"),
     removeRole: require("./removeRole")
 };

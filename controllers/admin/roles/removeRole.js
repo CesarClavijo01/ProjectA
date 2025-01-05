@@ -1,20 +1,9 @@
 const { Op } = require("sequelize");
 const responses = require("../../../responses");
-const { User, Role, UserRole } = require("../../../models");
+const { User, Role, UserRole, RoleHierarchy } = require("../../../models");
 
 const removeRole = async (req, res) => {
-    const { userId } = req.params;
-    const { roleId } = req.body;
-
-    // Prevent removal of basic user role
-    if (roleId === "1") {
-        return res.status(400).json(
-            responses.error({
-                name: "RemoveBasicRole",
-                message: "Cannot remove basic user role."
-            })
-        );
-    };
+    const { userId, roleId } = req.body;
 
     try {
         // Check if user exists
@@ -59,13 +48,38 @@ const removeRole = async (req, res) => {
         await UserRole.destroy({
             where: {
                 userId,
-                roleId: { [Op.gte]: roleId }
+                roleId
             }
         });
 
+        const removeParentRoles = async (childId) => {
+            // Find the parent roles of the current role
+            const parentRoles = await RoleHierarchy.findAll({
+                where: { childId }
+            });
+
+            // If there are parent roles, remove them and recurse
+            for (const parentRole of parentRoles) {
+                // Remove the link from RoleHierarchy
+                const existingUserRole = await UserRole.scope('id').findOne({
+                    where: { userId, roleId: parentRole.parentId }
+                });
+
+                // If the user has the parent role, remove it
+                if (existingUserRole) {
+                    await existingUserRole.destroy();
+                };
+
+                // Recursively remove parent roles
+                await removeParentRoles(parentRole.parentId);
+            }
+        };
+
+        await removeParentRoles(roleId)
+
         return res.status(200).json(
             responses.success({
-                message: "Role and sub roles successfully removed from user."
+                message: "Role and parent roles successfully removed from user."
             })
         );
     } catch (error) {

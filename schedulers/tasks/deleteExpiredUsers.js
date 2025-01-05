@@ -2,26 +2,28 @@ const { User } = require("../../models");
 const { Op } = require("sequelize");
 
 const deleteExpiredUsers = async () => {
+    // Get 30 days ago
     const thresholdDate = new Date();
-    thresholdDate.setDate(thresholdDate.getSeconds() - 30);
+    thresholdDate.setDate(thresholdDate.getDate() - 30);
     
     try {
-        const usersToDelete = await User.findAll({
+        // Get users that were soft-deleted 30+ days ago
+        const deletedCount = await User.destroy({
             where: {
                 deletedAt: {
                     [Op.lte]: thresholdDate
                 }
-            }
+            },
+            force: true
         });
 
-        if (usersToDelete.length < 1) {
+        // If there aren't users
+        if (deletedCount === 0) {
+            // Cool
             return console.log("No users to delete")
-        }
-
-        for (const user of usersToDelete) {
-            await user.destroy({ force: true });
         };
 
+        // If there were, awesome
         return console.log("Expired users deleted.");
 
     } catch (error) {

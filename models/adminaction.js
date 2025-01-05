@@ -27,12 +27,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    userId: {
-      type: DataTypes.UUID,
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
+    details: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    performedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,

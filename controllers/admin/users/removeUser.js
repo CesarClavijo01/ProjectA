@@ -23,8 +23,8 @@ const removeUser = async (req, res) => {
         // Log admin action
         await AdminAction.create({
             adminId,
-            userId,
             action: `Soft-deleted user`,
+            details: `User with id#${userId} soft-deleted. ${new Date().toLocaleString()}`
         });
 
         // Return
