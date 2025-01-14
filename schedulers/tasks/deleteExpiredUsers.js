@@ -7,7 +7,7 @@ const deleteExpiredUsers = async () => {
     thresholdDate.setDate(thresholdDate.getDate() - 30);
     
     try {
-        // Get users that were soft-deleted 30+ days ago
+        // Delete users that were soft-deleted 30+ days ago
         const deletedCount = await User.destroy({
             where: {
                 deletedAt: {
@@ -17,7 +17,7 @@ const deleteExpiredUsers = async () => {
             force: true
         });
 
-        // If there aren't users
+        // If there weren't users
         if (deletedCount === 0) {
             // Cool
             return console.log("No users to delete")

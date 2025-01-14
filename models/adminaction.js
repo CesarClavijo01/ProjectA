@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class AdminAction extends Model {
     static associate(models) {
       AdminAction.belongsTo(models.User, {
-        foreignKey: 'userId',
+        foreignKey: 'adminId',
+        as: 'admin',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       });

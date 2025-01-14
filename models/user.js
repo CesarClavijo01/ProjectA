@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserRole,
         foreignKey: "userId",
         as: "roles"
-      })
+      });
+
     };
 
-  };
+  }; 
 
   User.init({
     id: {
@@ -74,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         attributes: ['id', 'hash']
       },
       search: {
-        attributes: ['id', 'username', 'createdAt']
+        attributes: ['id', 'username']
       },
       delete: {
         attributes: ['id', 'deletedAt']

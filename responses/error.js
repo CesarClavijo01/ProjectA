@@ -1,14 +1,20 @@
 const errorResponse = ({
 
     name = "",
+    statusCode,
     message = "There was an error.",
     data = null
 
 }) => {
 
-    response = { error: true, name: `${name}Error`, message }
+    const response = {
+        error: true,
+        statusCode,
+        name: `${name}Error`,
+        message
+    };
     if (data) response.data = data
-    return response
+    return response;
 
 };
 

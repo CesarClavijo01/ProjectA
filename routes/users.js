@@ -1,16 +1,16 @@
 const { Router } = require('express');
 const usersRoutes = Router();
 const { requireUser } = require('../middleware');
-const { users: usersController } = require("../controllers")
-const responses = require('../responses')
+const { UsersRequests } = require("../requests");
+const responses = require('../responses');
 
-usersRoutes.post("/register", usersController.register);
+usersRoutes.post("/register", UsersRequests.register);
 
-usersRoutes.post("/login", usersController.login);
+usersRoutes.post("/login", UsersRequests.login);
 
-usersRoutes.get("/search", usersController.searchByUsername);
+usersRoutes.get("/search", UsersRequests.searchByUsername);
 
-usersRoutes.get("/:userId", usersController.getById);
+usersRoutes.get("/:userId", UsersRequests.getUserById);
 
 // GET /verify
 

@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const adminRoutes = Router();
-const { admin: adminController } = require("../controllers");
+const { AdminRequests } = require("../requests");
 
-adminRoutes.post("/assign-role", adminController.roles.assignRole);
+adminRoutes.post("/assign-role", AdminRequests.roles.assignRole);
 
-adminRoutes.patch("/recover-user/:userId", adminController.users.recoverUser);
+adminRoutes.patch("/recover-user/:userId", AdminRequests.users.recoverUser);
 
-adminRoutes.delete("/remove-role", adminController.roles.removeRole);
-adminRoutes.delete("/remove-user/:userId", adminController.users.removeUser);
+adminRoutes.delete("/remove-role", AdminRequests.roles.removeRole);
+adminRoutes.delete("/delete-user/:userId", AdminRequests.users.deleteUser);
 
 module.exports = adminRoutes;
