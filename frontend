@@ -1,0 +1,31 @@
+Have backend running on a render server
+Pull endpoint as render server link
+
+Modularize
+
+    <Header>
+    <Footer>
+    <NavBar>
+    <SearchBar>
+    <Account>
+    <RegisterForm>
+    <LoginForm>
+    <UserSettings>
+
+    api calls
+    /login
+    /register
+    /search
+    /:userId
+    
+Abstract Each Component
+
+    components/Card.jsx
+    <div (card)>
+
+    </div>
+
+    components/Deck.jsx
+    <div (deck)>
+        map <Card/>
+    </div>

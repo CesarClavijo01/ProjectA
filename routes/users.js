@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const usersRoutes = Router();
-const { requireUser } = require('../middleware');
-const { UsersRequests } = require("../requests");
-const responses = require('../responses');
+const { UsersRequests } = require("../HTTP");
+const { registerLimiter, loginLimiter } = require('../rateLimiters');
 
-usersRoutes.post("/register", UsersRequests.register);
+usersRoutes.post("/register", registerLimiter, UsersRequests.register);
 
-usersRoutes.post("/login", UsersRequests.login);
+usersRoutes.post("/login", loginLimiter, UsersRequests.login);
 
 usersRoutes.get("/search", UsersRequests.searchByUsername);
 

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const adminRoutes = Router();
-const { AdminRequests } = require("../requests");
+const { AdminRequests } = require("../HTTP");
 
 adminRoutes.post("/assign-role", AdminRequests.roles.assignRole);
 

@@ -26,6 +26,9 @@ app.use(cors({
 const helmet = require('helmet');
 app.use(helmet());
 
+const { globalLimiter } = require("./rateLimiters");
+app.use(globalLimiter);
+
 const { attachUser } = require('./auth');
 app.use(attachUser);
 

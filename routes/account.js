@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const accountRoutes = Router();
-const { UsersRequests } = require("../requests")
+const { UsersRequests } = require("../HTTP")
 
 accountRoutes.get("/", UsersRequests.getAccount);
 
