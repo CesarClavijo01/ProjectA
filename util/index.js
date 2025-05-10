@@ -1,5 +1,5 @@
 module.exports = {
-    getMissingFields: require('./getMissingFields'),
+    checkMissingFields: require('./checkMissingFields'),
     getPaginationParams: require('./getPaginationParams'),
     camelToSpaced: require('./camelToSpaced')
 };

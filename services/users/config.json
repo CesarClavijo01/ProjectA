@@ -1,0 +1,30 @@
+{
+    "firstName": {
+        "field": "firstName",
+        "lowerLength": 2,
+        "upperLength": 30,
+        "profane": true,
+        "confirm": false
+    },
+    "lastName": {
+        "field": "lastName",
+        "lowerLength": 2,
+        "upperLength": 30,
+        "profane": true,
+        "confirm": false
+    },
+    "email": {
+        "field": "email",
+        "lowerLength": 0,
+        "upperLength": 75,
+        "profane": false,
+        "confirm": true
+    },
+    "username": {
+        "field": "username",
+        "lowerLength": 8,
+        "upperLength": 16,
+        "profane": true,
+        "confirm": false
+    }
+}

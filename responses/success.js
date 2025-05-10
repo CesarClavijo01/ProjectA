@@ -1,14 +1,17 @@
 const successResponse = ({
 
-    message = "",
+    statusCode,
+    message = "Success.",
     data = null,
     
 }) => {
 
-    const response = { error: false };
-    if (message) response.message = message
+    const response = {
+        error: false,
+        statusCode,
+        message
+    };
     if (data) response.data = data;
-
     return response;
 
 };

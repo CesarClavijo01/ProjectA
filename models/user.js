@@ -7,10 +7,15 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
     static associate(models) {
-      // define association here
-    }
+      User.belongsToMany(models.Role, {
+        through: models.UserRole,
+        foreignKey: "userId",
+        as: "roles"
+      });
 
-  }
+    };
+
+  }; 
 
   User.init({
     id: {
@@ -46,25 +51,34 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
+    deletedAt: {
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'User',
-    defaultScope: { attributes: ['id', 'firstName', 'lastName', 'username', 'createdAt', 'updatedAt'] },
+    paranoid: true,
+    deletedAt: 'deletedAt',
+    timestamps: true,
+    defaultScope: { attributes: { exclude: ['hash', 'email', 'deletedAt'] } },
     scopes: {
       id: {
         attributes: ['id']
       },
-      login: {
-        attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'hash', 'createdAt', 'updatedAt']
-      },
       attach: {
-        attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'createdAt', 'updatedAt']
+        attributes: { exclude: ['hash', 'deletedAt'] }
+      },
+      login: {
+        attributes: { exclude: ['deletedAt'] }
       },
       password: {
         attributes: ['id', 'hash']
       },
       search: {
-        attributes: ['id', 'username', 'createdAt']
+        attributes: ['id', 'username']
+      },
+      delete: {
+        attributes: ['id', 'deletedAt']
       }
     }
   });

@@ -10,7 +10,7 @@
     npm install
     ```
 
-    This will install all the dependencies listed in the `package.json` file.
+    This will install all the dependencies listed in the `package.json` file. You may be prompted to install `sequelize-cli`.
 
 2. **Build Development Environment**
 
@@ -86,52 +86,114 @@
 
 1. ### /api/users
 
-    - **POST /api/users/register**
+    - ### POST /api/users/register
 
-        Register a new user
+        - **Description**:
+        
+            Registers a new user.
 
-    - **POST /api/users/login**
+        - **Request Body**:
 
-        Login an existing user
+            ```
+            {
+                firstName: "John",              // Optional: First name of the user
+                lastName: "Doe",                // Optional: Last name of the user
+                username: "johndoe123",         // Required: Unique username for the user
+                reqEmail: "john@example.com",   // Required: Requested email address, must be a valid email format.
+                conEmail: "john@example.com",   // Required: Confirmed email address, must match reqEmail.
+                reqPassword: "Password123!",    // Required: Requested password, must meet security criteria.
+                conPassword: "Password123!"     // Required: Confirmed password, must match reqPassword.
+            }
+            ```
+
+        - **Responses**:
+
+            - `201 Created`: User successfully registered. Returns user data (e.g., `id`, `username`) and a JWT token.
+            - `400 Bad Request`: One or more required fields are missing, emails do not match, username/email is already in use, or password mismatch.
+            - `500 Internal Server Error`: If there was an error while registering the user, the server will return a generic error message.
+
+
+    - ### POST /api/users/login
+
+        - **Description**:
+        
+            Login an existing user
+
+        - **Request Body**:
+
+            ```
+            ```
+        
+        - **Responses**:
+
 
     - **GET /api/users/search**
+        
+        - **Description**:
+        
+            Search users by username with pagination
 
-        Search users by username with pagination:
+        - **Query parameters**:
 
-        - Query parameters:
           - `username` (required): Partial username to search for.
           - `limit` (optional): Number of results per page (default: 10).
           - `page` (optional): Page index for results (default: 0).
 
+        - **Responses**:
+
     - **GET /api/users/:userId**
 
-        Get a single user by their user ID.
+        - **Description**:
 
-2. ### /api/users/account
+            Get a single user by their user ID.
+
+        - **Parameters**:
+
+            - `userId`: Requested user's id, UUID format.
+
+        - **Responses**:
+
+2. ### /api/account
 
     REQUIRES USER
 
-    - **GET /api/users/account/**
+    - **GET /api/account/**
 
         Get own account
 
-    - **PATCH /api/users/account/first-name**
+    - **PATCH /api/account/first-name**
 
         Update first name
 
-    - **PATCH /api/users/account/last-name**
+    - **PATCH /api/account/last-name**
 
         Update last name
 
-    - **PATCH /api/users/account/username**
+    - **PATCH /api/account/username**
 
         Update username
 
-    - **PATCH /api/users/account/email**
+    - **PATCH /api/account/email**
 
         Update email
 
-    - **PATCH /api/users/account/password**
+    - **PATCH /api/account/password**
 
         Update password
 
+3. ### /api/admin
+
+    REQUIRES USER
+    REQUIRES ADMIN PERMISSIONS
+
+    - **POST /api/admin/add-role/:userId**
+
+        Creates a UserRole entry, adds a role to a user.
+        
+    - **DELETE /api/admin/remove-role/:userId**
+
+        Removes a UserRole entry, removes a role from a user.
+
+    - **DELETE /api/admin/remove-user/:userId**
+
+        Removes a user and all ascociated data from the database.

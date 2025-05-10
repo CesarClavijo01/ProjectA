@@ -1,0 +1,39 @@
+Tiers
+    id = UUID
+    name = ENUM
+    value = INT
+
+Sports
+    id = UUID
+    name = STRING
+
+Players
+    id = UUID
+    imageURL = STRING
+    firstName = STRING
+    lastName = STRING
+    nickName = STRING
+    overall = INT
+    athleticism = INT / 100
+    power = INT / 100
+    stamina = INT / 100
+    strength = INT / 100
+    accuracy = INT / 100
+    speed = INT / 100
+    starPower = INT / 100
+    
+Cards
+    id = UUID
+    playerId = UUID
+    sportId = UUID
+    tierId = UUID
+    teamId = UUID
+
+UserCards
+    id = UUID
+    userId = UUID
+    cardId = UUID
+
+deck = get all userCards where userId
+
+
